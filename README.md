@@ -5,13 +5,13 @@
 <div align="center">
 <samp>
 
-# Minimalist Logger based on slog with Otel for GoogleCloud
+# Minimalist Logger <br> based on slog with Otel for GoogleCloud
 
 sog stands for **S**tructured **O**tel **G**oogleCloud, inspired by [clog](https://github.com/nownabe/clog). 
 Special thanks to nownabe.
+
 </samp>
 </div>
-
 
 
 ## Key Features
