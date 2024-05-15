@@ -1,5 +1,5 @@
 <p align="center">
-<img width="543" alt="image" src="https://github.com/s4s7/soglog/assets/41041296/a1acbd3a-81e0-48ef-8c5a-99a23978c9a0">
+<img width="350" alt="image" src="https://github.com/s4s7/soglog/assets/41041296/a1acbd3a-81e0-48ef-8c5a-99a23978c9a0">
 </p>
 
 <div align="center">
