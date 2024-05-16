@@ -7,7 +7,6 @@ import (
 
 	"github.com/s4s7/soglog"
 	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
 	"go.opentelemetry.io/otel/sdk/trace"
 )
 
@@ -28,7 +27,8 @@ func getTenantIDFromCtx(ctx context.Context) (string, bool) {
 func handler(_ http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	if r.Method == http.MethodGet {
-		ctx, _ := tracer.Start(ctx, "span.test")
+		ctx, span := tracer.Start(ctx, "span.test")
+		defer span.End()
 
 		// show log at each log level
 		slog.DebugContext(ctx, "slog debug test")
@@ -36,15 +36,6 @@ func handler(_ http.ResponseWriter, r *http.Request) {
 		slog.WarnContext(ctx, "slog warn test")
 		slog.ErrorContext(ctx, "slog error test")
 	}
-}
-
-func initTracer() {
-	traceExporter, err := stdouttrace.New()
-	if err != nil {
-		panic(err)
-	}
-	traceProvider := trace.NewTracerProvider(trace.WithBatcher(traceExporter))
-	otel.SetTracerProvider(traceProvider)
 }
 
 func addUserIDToLabelFiled(ctx context.Context) (key, value string, found bool) {
@@ -60,7 +51,7 @@ func main() {
 	slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("YourProjectID", true, addUserIDToLabelFiled)))
 
 	// init tracer
-	initTracer()
+	otel.SetTracerProvider(trace.NewTracerProvider())
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/soglog", func(w http.ResponseWriter, r *http.Request) {
