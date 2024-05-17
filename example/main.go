@@ -48,7 +48,7 @@ func addUserIDToLabelFiled(ctx context.Context) (key, value string, found bool) 
 
 func main() {
 	// init logger
-	slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("YourProjectID", true, addUserIDToLabelFiled)))
+	slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("YourProjectID", &soglog.Options{IsStackTraced: true, LabelFieldInjector: addUserIDToLabelFiled})))
 
 	// init tracer
 	otel.SetTracerProvider(trace.NewTracerProvider())

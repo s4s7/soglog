@@ -3,7 +3,7 @@ module github.com/s4s7/soglog/example
 go 1.22.3
 
 require (
-	github.com/s4s7/soglog v0.0.0-20240514151758-55550e0b9b46
+	github.com/s4s7/soglog v1.0.2
 	go.opentelemetry.io/otel v1.26.0
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.26.0
 	go.opentelemetry.io/otel/sdk v1.26.0
