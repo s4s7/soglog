@@ -34,12 +34,35 @@ type CloudLoggingHandler struct {
 	handler            slog.Handler
 	projectID          string
 	isStackTraced      bool
-	labelFieldInjector LabelFieldInjector
+	LabelFieldInjector labelFieldInjector
 }
 
-type LabelFieldInjector func(ctx context.Context) (key, value string, found bool)
+type labelFieldInjector func(ctx context.Context) (key, value string, found bool)
 
-func NewCloudLoggingHandler(projectID string, isStackTraced bool, labelFieldInjector LabelFieldInjector) *CloudLoggingHandler {
+// CloudLoggingHandlerOptions defines the configuration options for creating a CloudLoggingHandler.
+// This struct provides options to enable stack tracing and to inject custom label fields.
+type CloudLoggingHandlerOptions struct {
+
+	// IsStackTraced indicates whether to include a stack trace in error logs.
+	// If set to true, a stack trace will be added to the log entries when the log level is Error.
+	IsStackTraced bool
+
+	// LabelFieldInjector is a function that injects custom label fields into the log entries.
+	// This function takes a context and returns a key-value pair to be added as labels,
+	LabelFieldInjector labelFieldInjector
+}
+
+// NewCloudLoggingHandler creates a new CloudLoggingHandler with optional settings.
+// If no options are provided, stack traces will not be included in error logs and no additional label fields will be injected.
+// Example usage:
+// slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("your-project-id", &CloudLoggingHandlerOptions{IsStackTraced: true, LabelFieldInjector: yourLabelFieldInjector})
+func NewCloudLoggingHandler(projectID string, options ...*CloudLoggingHandlerOptions) *CloudLoggingHandler {
+
+	opts := &CloudLoggingHandlerOptions{}
+	if len(options) > 0 {
+		opts = options[0]
+	}
+
 	return &CloudLoggingHandler{
 		handler: slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{
 			AddSource:   true,
@@ -47,8 +70,8 @@ func NewCloudLoggingHandler(projectID string, isStackTraced bool, labelFieldInje
 			ReplaceAttr: replaceAttr,
 		}),
 		projectID:          projectID,
-		isStackTraced:      isStackTraced,
-		labelFieldInjector: labelFieldInjector,
+		isStackTraced:      opts.IsStackTraced,
+		LabelFieldInjector: opts.LabelFieldInjector,
 	}
 }
 
@@ -69,8 +92,8 @@ func (h *CloudLoggingHandler) Handle(ctx context.Context, rec slog.Record) error
 	}
 
 	// add customized label
-	if h.labelFieldInjector != nil {
-		key, value, found := h.labelFieldInjector(ctx)
+	if h.LabelFieldInjector != nil {
+		key, value, found := h.LabelFieldInjector(ctx)
 		if found {
 			rec.AddAttrs(slog.Group(keyLabel, slog.String(key, value)))
 		}
