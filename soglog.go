@@ -101,7 +101,7 @@ func (h *CloudLoggingHandler) Handle(ctx context.Context, rec slog.Record) error
 	// set stack trace
 	if h.isStackTraced && rec.Level.String() == slog.LevelError.String() {
 		rec.AddAttrs(
-			// skip 3 {this func, slog.(*Logger).log, slog.ErrorContext}
+			// skip 3 [this func, slog.(*Logger).log, slog.ErrorContext]
 			slog.String(keyStack, string(newStackFrames(3))),
 		)
 	}
