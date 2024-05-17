@@ -31,7 +31,7 @@ Special thanks to nownabe.
 3. **You can initialize slog with a one-liner at server startup, allowing you to use its default slog methods throughout your application**
 
 ```golang
-slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("your-project-id", &CloudLoggingHandlerOptions{IsStackTraced: true, LabelFieldInjector: yourLabelFieldInjector})
+slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("your-project-id", &soglog.Options{IsStackTraced: true, LabelFieldInjector: yourLabelFieldInjector})
 ```
 
 ## Note

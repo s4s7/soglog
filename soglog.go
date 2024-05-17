@@ -39,9 +39,8 @@ type CloudLoggingHandler struct {
 
 type labelFieldInjector func(ctx context.Context) (key, value string, found bool)
 
-// CloudLoggingHandlerOptions defines the configuration options for creating a CloudLoggingHandler.
-// This struct provides options to enable stack tracing and to inject custom label fields.
-type CloudLoggingHandlerOptions struct {
+// Options struct provides options to enable stack tracing and to inject custom label fields.
+type Options struct {
 
 	// IsStackTraced indicates whether to include a stack trace in error logs.
 	// If set to true, a stack trace will be added to the log entries when the log level is Error.
@@ -55,10 +54,10 @@ type CloudLoggingHandlerOptions struct {
 // NewCloudLoggingHandler creates a new CloudLoggingHandler with optional settings.
 // If no options are provided, stack traces will not be included in error logs and no additional label fields will be injected.
 // Example usage:
-// slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("your-project-id", &CloudLoggingHandlerOptions{IsStackTraced: true, LabelFieldInjector: yourLabelFieldInjector})
-func NewCloudLoggingHandler(projectID string, options ...*CloudLoggingHandlerOptions) *CloudLoggingHandler {
+// slog.SetDefault(slog.New(soglog.NewCloudLoggingHandler("your-project-id", &soglog.Options{IsStackTraced: true, LabelFieldInjector: yourLabelFieldInjector})
+func NewCloudLoggingHandler(projectID string, options ...*Options) *CloudLoggingHandler {
 
-	opts := &CloudLoggingHandlerOptions{}
+	opts := &Options{}
 	if len(options) > 0 {
 		opts = options[0]
 	}
