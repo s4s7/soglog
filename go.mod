@@ -1,6 +1,6 @@
 module github.com/s4s7/soglog
 
-go 1.22.3
+go 1.21.0
 
 require (
 	cloud.google.com/go/logging v1.9.0
