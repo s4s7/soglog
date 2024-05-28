@@ -6,6 +6,8 @@
 <samp>
 
 # Minimalist Logger <br> based on slog with Otel for GoogleCloud
+![Go Version](https://img.shields.io/badge/Go-%3E%3D%201.21-%23007d9c)
+[![GoDoc](https://godoc.org/github.com/samber/slog-multi?status.svg)](https://pkg.go.dev/github.com/s4s7/soglog)
 
 sog stands for **S**tructured **O**tel **G**oogleCloud, inspired by [clog](https://github.com/nownabe/clog). 
 Special thanks to nownabe.
